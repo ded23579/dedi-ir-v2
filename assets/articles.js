@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadArticles() {
-    const sheetUrl = 'https://api.dewan36912.workers.dev/'; // Ganti dengan URL API
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
     console.log("Fetching from URL:", sheetUrl); // Debugging
 
     fetch(sheetUrl)
