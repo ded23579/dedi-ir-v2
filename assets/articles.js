@@ -1,7 +1,7 @@
 function loadArticles() {
     const sheetUrl = 'https://api.dewan36912.workers.dev/'; // Ganti dengan URL publik Google Sheets Anda
 
-    fetch(apiUrl)
+    fetch(sheetUrl) // Gunakan sheetUrl yang benar
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
