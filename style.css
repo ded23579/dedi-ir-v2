@@ -924,3 +924,69 @@ background-color: #222; /* Tambahkan latar belakang untuk gambar kosong */
 .articles-section a:hover {
     color: #0056a3;
 }
+/* Ensure the viewport is set correctly */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Flexbox for centering content */
+.hero-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.wrapper {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-pic img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.hero-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-group .btn {
+    margin: 10px;
+}
+
+.social a {
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-pic, .hero-text {
+        width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 2em;
+    }
+}
