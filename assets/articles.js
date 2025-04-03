@@ -1,5 +1,5 @@
 function loadArticles() {
-    const sheetUrl = 'https://api.dewan36912.workers.dev/'; // Ganti dengan URL publik Google Sheets Anda
+    const sheetUrl = 'https://edu.abjad.eu.org/feed'; // Ganti dengan URL publik Google Sheets Anda
 
     fetch(sheetUrl)
         .then(response => response.text())
