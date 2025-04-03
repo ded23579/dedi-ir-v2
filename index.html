@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dedi IR | Website Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="canonical" href="https://ded23579.github.io/">
+        
+    <!-- Title dan Deskripsi -->
+    <meta name="description" content="Dedi Ir - Website pribadi berisi informasi, projek, artikel, Puisi, Literasi, seni, Edukasi, desain, dan fotografi.">
+    
+    <!-- Kata Kunci -->
+    <meta name="keywords" content="Dedi Ir, Website, Portfolio, Desain, Fotografi, Puisi, Artikel, Edukasi">
+    
+    <!-- Robots Indexing -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (untuk share di media sosial) -->
+    <meta property="og:title" content="Dedi Ir">
+    <meta property="og:description" content="Website pribadi tentang desain, seni, edu, experimen dan fotografi.">
+    <meta property="og:image" content="https://ded23579.github.io/image/main_photo.webp">
+    <meta property="og:url" content="https://ded23579.github.io/">
+    <meta property="og:type" content="website">
+    <meta name="google-site-verification" content="KODE_VERIFIKASI_GOOGLE">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/images/icon.WebP">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Dedi IR",
+        "url": "https://ded23579.github.io/",
+        "description": "Dedi IR - Website pribadi berisi informasi, projek, artikel, Puisi, Literasi, seni, Edukasi, desain, dan fotografi."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dedi Ir",
+        "url": "https://ded23579.github.io/",
+        "image": "https://ded23579.github.io/images/Dedi-Ir.webp",
+        "description": "Saya hanya mas-mas biasa yang tertarik dengan dunia edit, menggambar, puisi, sajak, literasi, seni, dan fotografi.",
+        "sameAs": [
+            "https://www.instagram.com/ded.dedii",
+            "https://github.com/ded23579"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Error 404 -->
+    <div class="error-404" style="display: none; text-align: center; margin-top: 50px;">
+        <h1>404 - Halaman Tidak Ditemukan</h1>
+        <p>Maaf, halaman yang Anda cari tidak tersedia. <a href="/">Kembali ke Beranda</a></p>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="wrapper">
+<!-- Nama di sebelah kiri -->
+                <div class="brand">
+                    <a href="#" onclick="loadPage('home')">Dedi Ir</a>
+                </div>
+<!-- Tombol menu toggle -->
+                <span class="menu-toggle" onclick="toggleMenu()"><i class="fa fa-bars"></i></span>
+                <!-- Menu di sebelah kanan -->
+                <ul class="menu">
+                    <li><a href="#" onclick="loadPage('home')">Home</a></li>
+</ul>
+            </div>
+        </nav>
+    </header>
+
+<!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        </ol>
+    </nav>
+
+<!-- Konten Utama -->
+    <main>
+<div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+<div class="sidebar-profile">
+                    <img src="images/Dedi-Ir.webp" alt="Dedi Ir" loading="lazy">
+                    <h3>Dedi Ir</h3>
+                    <p>Saya hanya mas-mas biasa yang tertarik dengan dunia edit, menggambar, puisi, sajak, lierasi, sajak, fotografi.</p>
+                </div>                
+            </aside>
+<!-- Konten Utama -->
+<div id="content">
+            <!-- Konten akan dimuat di sini -->
+        </div>
+</div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="wrapper">
+            <!-- Bagian kiri: Menu -->
+            <div class="footer-menu">
+                <ul>
+                    <li><a href="#" onclick="loadPage('about')">About</a></li>
+                    <li><a href="#" onclick="loadPage('contact')">Contact</a></li>
+                    <li><a href="#" onclick="loadPage('disclaimer')">Disclaimer</a></li>
+                    <li><a href="#" onclick="loadPage('privacy')">Privacy</a></li>
+                    <li><a href="#" onclick="loadPage('articles')">Articles</a></li>
+                </ul>
+            </div>
+            <!-- Bagian tengah: Copyright -->
+            <div class="footer-copyright">
+                <p>&copy; <span id="current-year"></span> Dedi Ir. All Rights Reserved.</p>
+            </div>
+            <!-- Bagian kanan: Ikon Sosial Media -->
+            <div class="footer-social" style="margin-top: 10px; text-align: center;">
+                <a href="https://www.instagram.com/ded.dedii" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://github.com/ded23579" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>               
+            </div>
+        </div>
+    </footer>
+    <script src="assets/home.js"></script>
+    <script src="assets/about.js"></script>
+    <script src="assets/contact.js"></script>
+    <script src="assets/disclaimer.js"></script>
+    <script src="assets/privacy.js"></script>
+    <script src="assets/articles.js"></script>
+    <script>
+        // Fungsi untuk memuat halaman awal
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPage('home');
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+        });
+
+        // Fungsi untuk memuat halaman berdasarkan nama
+        function loadPage(page) {
+const sidebar = document.getElementById('sidebar');
+            if (page === 'home') {
+                if (sidebar) sidebar.style.display = 'none'; // Sembunyikan sidebar di halaman home
+            } else {
+                if (sidebar) sidebar.style.display = 'block'; // Tampilkan sidebar di halaman lain
+            }
+
+            switch (page) {
+                case 'home':
+                    loadHome();
+                    break;
+                case 'about':
+                    loadAbout();
+                    break;
+                case 'contact':
+                    loadContact();
+                    break;
+                case 'disclaimer':
+                    loadDisclaimer();
+                    break;
+                case 'privacy':
+                    loadPrivacy();
+                    break;
+                case 'articles':
+                    loadArticles(); // Panggil fungsi untuk memuat artikel
+                    break;
+                default:
+                    document.getElementById('content').innerHTML = '<h2>Page not found</h2>';
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+
+        // Fungsi untuk menangani 404 error dan redirect ke home
+        window.addEventListener('error', (event) => {
+            if (event.target.tagName === 'IMG' || event.target.tagName === 'SCRIPT') {
+                console.warn('Resource not found:', event.target.src || event.target.href);
+                const errorDiv = document.querySelector('.error-404');
+                if (errorDiv) {
+                    errorDiv.style.display = 'block'; // Tampilkan pesan error
+                }
+                setTimeout(() => {
+                    window.location.replace('/?redirected=301'); // Redirect ke home dengan status 301
+                }, 3000); // Tunggu 3 detik sebelum redirect
+            }
+        });
+    </script>
+</body>
+</html>
