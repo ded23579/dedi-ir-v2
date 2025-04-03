@@ -1,44 +1,56 @@
-function loadArticles() {
-    const sheetUrl = 'https://api.dewan36912.workers.dev/'; // Ganti dengan URL publik Google Sheets Anda
+document.addEventListener("DOMContentLoaded", function () {
+    loadArticles();
+});
 
-    fetch(sheetUrl) // Gunakan sheetUrl yang benar
+function loadArticles() {
+    const sheetUrl = 'https://api.dewan36912.workers.dev/'; // Ganti dengan URL API
+    console.log("Fetching from URL:", sheetUrl); // Debugging
+
+    fetch(sheetUrl)
         .then(response => {
+            console.log("Response status:", response.status); // Debugging HTTP Status
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
             return response.json(); // Parse JSON response
         })
         .then(data => {
-            console.log('Fetched articles:', data); // Log data untuk debugging
+            console.log("Fetched data:", data); // Debugging response data
 
+            // Periksa apakah data adalah array, jika tidak cek apakah ada objek articles
             if (!Array.isArray(data)) {
-                console.error('Invalid API response format. Expected an array.', data);
-                document.getElementById('content').innerHTML = '<p>Failed to load articles. Invalid response format.</p>';
-                return;
+                if (data.articles && Array.isArray(data.articles)) {
+                    data = data.articles; // Gunakan array dari properti articles
+                } else {
+                    console.error('Invalid API response format. Expected an array.', data);
+                    document.getElementById('content').innerHTML =
+                        '<p>Failed to load articles. Invalid response format.</p>';
+                    return;
+                }
             }
 
             // Proses dan render artikel
             let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
             data.forEach((article, index) => {
-                // Validasi data
-                if (!article.title || !article.description) {
+                if (!article.Title || !article.Description) {
                     console.warn(`Invalid article data at index ${index}:`, article);
                     return;
                 }
 
-                const { title, description, featuredImage, content } = article;
+                const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
+                const imageUrl = FeaturedImage && FeaturedImage.trim()
+                    ? FeaturedImage
+                    : 'images/default-image.webp';
 
-                // Validasi URL gambar
-                const imageUrl = featuredImage && featuredImage.trim() ? featuredImage : 'images/default-image.webp';
-
-                articlesHTML += `
+                articlesHTML += ` 
                     <div class="article-card">
                         <div class="article-image-container">
-                            <img src="${imageUrl}" alt="${title}" class="article-image" onerror="this.src='images/default-image.webp';">
+                            <img src="${imageUrl}" alt="${Title}" class="article-image"
+                                onerror="this.src='images/default-image.webp';">
                         </div>
                         <div class="article-content">
-                            <h2>${title}</h2>
-                            <p>${description}</p>
+                            <h2>${Title}</h2>
+                            <p>${Description}</p>
                             <button class="read-more-btn" onclick="showFullArticle(${index})">Read More</button>
                         </div>
                     </div>
@@ -47,9 +59,7 @@ function loadArticles() {
             articlesHTML += '</div>';
 
             document.getElementById('content').innerHTML = articlesHTML;
-
-            // Simpan artikel untuk digunakan di fungsi "Read More"
-            window.articlesData = data;
+            window.articlesData = data; // Simpan data untuk Read More
         })
         .catch(error => {
             console.error('Error fetching articles:', error);
@@ -59,16 +69,23 @@ function loadArticles() {
 
 function showFullArticle(index) {
     const article = window.articlesData[index];
-    const { title, description, featuredImage, content } = article;
+    if (!article) {
+        console.error("Article not found at index:", index);
+        document.getElementById('content').innerHTML = '<p>Article not found.</p>';
+        return;
+    }
 
-    // Validasi URL gambar
-    const imageUrl = featuredImage && featuredImage.trim() ? featuredImage : 'images/default-image.webp';
+    const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
+    const imageUrl = FeaturedImage && FeaturedImage.trim()
+        ? FeaturedImage
+        : 'images/default-image.webp';
 
     const fullArticleHTML = `
         <div class="full-article">
-            <img src="${imageUrl}" alt="${title}" class="article-image" onerror="this.src='images/default-image.webp';">
-            <h1>${title}</h1>
-            <p>${content}</p>
+            <img src="${imageUrl}" alt="${Title}" class="article-image"
+                onerror="this.src='images/default-image.webp';">
+            <h1>${Title}</h1>
+            <p>${Column4}</p>
             <button class="back-btn" onclick="loadArticles()">Back to Articles</button>
         </div>
     `;
