@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadArticles();
+    // Memeriksa apakah pengguna berada di halaman artikel sebelum memuat artikel
+    if (document.body.classList.contains('articles-page')) {
+        loadArticles();
+    }
 });
 
 function loadArticles() {
@@ -37,7 +40,7 @@ function loadArticles() {
                     return;
                 }
 
-                const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
+                const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
                 const imageUrl = FeaturedImage && FeaturedImage.trim()
                     ? FeaturedImage
                     : 'images/default-image.webp';
@@ -75,7 +78,7 @@ function showFullArticle(index) {
         return;
     }
 
-    const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
+    const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
     const imageUrl = FeaturedImage && FeaturedImage.trim()
         ? FeaturedImage
         : 'images/default-image.webp';
@@ -85,7 +88,13 @@ function showFullArticle(index) {
             <img src="${imageUrl}" alt="${Title}" class="article-image"
                 onerror="this.src='images/default-image.webp';">
             <h1>${Title}</h1>
-            <p>${Column4}</p>
+            <p>${Content}</p>
+            <div class="meta-info">
+                <h3>Meta Information</h3>
+                <p><strong>Meta Title:</strong> ${MetaTitle}</p>
+                <p><strong>Meta Description:</strong> ${MetaDescription}</p>
+                <p><strong>Keywords:</strong> ${Keywords}</p>
+            </div>
             <button class="back-btn" onclick="loadArticles()">Back to Articles</button>
         </div>
     `;
