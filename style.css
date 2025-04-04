@@ -990,3 +990,32 @@ html, body {
         font-size: 2em;
     }
 }
+/* Aturan CSS lainnya tetap sama */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Susun elemen secara vertikal */
+        text-align: center; /* Rata tengah teks */
+    }
+
+    .hero-pic, .hero-text {
+        width: 100%; /* Lebar penuh untuk gambar dan teks */
+    }
+
+    .hero-text h1 {
+        font-size: 2em; /* Kurangi ukuran font untuk judul */
+    }
+
+    .btn-group {
+        flex-direction: column; /* Susun tombol secara vertikal */
+        align-items: center; /* Pusatkan tombol */
+    }
+
+    .btn-group .btn {
+        margin: 10px 0; /* Tambahkan jarak vertikal antar tombol */
+        width: calc(100% - 20px); /* Lebar penuh dengan sedikit margin */
+        max-width: 300px; /* Batasi lebar maksimum tombol */
+    }
+}
+
+/* Aturan CSS lainnya tetap sama */
