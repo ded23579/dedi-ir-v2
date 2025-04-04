@@ -965,11 +965,6 @@ html, body {
     text-align: center;
     margin-top: 20px;
 }
-
-.btn-group .btn {
-    margin: 10px;
-}
-
 .social a {
     margin: 0 10px;
     font-size: 24px;
@@ -996,7 +991,7 @@ html, body {
     }
 
     .btn-group .btn {
-        margin: 10px 0; /* Tambahkan jarak vertikal antar tombol */
+        margin: 20px 0; /* Tambahkan jarak vertikal antar tombol */
         width: calc(100% - 20px); /* Lebar penuh dengan sedikit margin */
         max-width: 300px; /* Batasi lebar maksimum tombol */
     }
