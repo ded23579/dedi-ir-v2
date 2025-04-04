@@ -5,7 +5,8 @@ function loadArticles() {
         .then(response => response.text())
         .then(csvText => {
             const rows = csvText.split('\n').map(row => row.split(','));
-            const articles = rows.slice(1); // Hilangkan header
+            const articles = rows.slice(1).map(row => row.slice(2)); // Hilangkan header
+            
 
             let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
             articles.forEach((article, index) => {
