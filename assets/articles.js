@@ -1,10 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Memeriksa apakah pengguna berada di halaman artikel sebelum memuat artikel
-    if (document.body.classList.contains('articles-page')) {
-        loadArticles();
-    }
-});
-
 function loadArticles() {
     const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
     console.log("Fetching from URL:", sheetUrl); // Debugging
