@@ -14,7 +14,6 @@ function loadHome() {
                         </p>
                         <div class="btn-group">
                             <a href="https://edu.abjad.eu.org" class="btn active">https://edu.abjad.eu.org</a>
-                            <a href="#" onclick="loadPage('articles')" class="btn active">article</a>
                         </div>
                         <div class="social">
                             <a href="https://www.instagram.com/ded.dedii" target="_blank" rel="noopener noreferrer">
