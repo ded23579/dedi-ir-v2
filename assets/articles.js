@@ -1,5 +1,5 @@
 function loadArticles() {
-    const sheetUrl = 'https://edu.abjad.eu.org/feed/'; // Ganti dengan URL publik Google Sheets Anda
+    const sheetUrl = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhEgKIC0a-Bb2lQHBceyp2qfyrZQtAAbYjXqeHI5ab-ydZQ6sUtbu0wEK_v1axVNVkdYDtsWsbB0wSPaqJ8TsaYo4J28Phc9bus5IoXmq6OckECLDmzgJV_P_re91O73-f5ERWNLSeeoi15mgw1_ekZ8fgjM3UjI1qvexap92zq6GHrXXgNEo1vkwqRlwpDstvr4UfYb6IQHmNsiwY9ZXB6mSYfMPvnWjoW0gC-GBDNs_AUrOnyRmQbKZSakXr6Clf0hbJzAoCFwEuoxXAlbgKIv-cxCA&lib=MgnNHUJ8nyHtCMfKhbjqgCUf_rrIVLfIM'; // Ganti dengan URL publik Google Sheets Anda
 
     fetch(sheetUrl)
         .then(response => response.text())
