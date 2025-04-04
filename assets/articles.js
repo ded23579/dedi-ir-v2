@@ -1,82 +1,69 @@
-function loadArticles() {
-    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
+async function fetchArticles() {
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec';
     console.log("Fetching from URL:", sheetUrl); // Debugging
 
-    fetch(sheetUrl)
-        .then(response => {
-            console.log("Response status:", response.status); // Debugging HTTP Status
-            if (!response.ok) {
-                throw new Error(`Network response was not ok. Status: ${response.status}`);
+    try {
+        const response = await fetch(sheetUrl);
+        console.log("Response status:", response.status); // Debugging HTTP Status
+        if (!response.ok) {
+            throw new Error(`Network response was not ok. Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched data:", data); // Debugging response data
+
+        // Periksa apakah data adalah array, jika tidak cek apakah ada objek articles
+        if (!Array.isArray(data)) {
+            if (data.articles && Array.isArray(data.articles)) {
+                return data.articles; // Gunakan array dari properti articles
+            } else {
+                throw new Error('Invalid API response format. Expected an array.');
             }
-            return response.json(); // Parse JSON response
-        })
-        .then(data => {
-            console.log("Fetched data:", data); // Debugging response data
-
-            // Periksa apakah data adalah array, jika tidak cek apakah ada objek articles
-            if (!Array.isArray(data)) {
-                if (data.articles && Array.isArray(data.articles)) {
-                    data = data.articles; // Gunakan array dari properti articles
-                } else {
-                    console.error('Invalid API response format. Expected an array.', data);
-                    document.getElementById('content').innerHTML =
-                        '<p>Failed to load articles. Invalid response format.</p>';
-                    return;
-                }
-            }
-
-            // Proses dan render artikel
-            let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
-            data.forEach((article, index) => {
-                if (!article.Title || !article.Description) {
-                    console.warn(`Invalid article data at index ${index}:`, article);
-                    return;
-                }
-
-                const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
-                const imageUrl = FeaturedImage && FeaturedImage.trim()
-                    ? FeaturedImage
-                    : 'images/default-image.webp';
-
-                articlesHTML += ` 
-                    <div class="article-card">
-                        <div class="article-image-container">
-                            <img src="${imageUrl}" alt="${Title}" class="article-image"
-                                onerror="this.src='images/default-image.webp';">
-                        </div>
-                        <div class="article-content">
-                            <h2>${Title}</h2>
-                            <p>${Description}</p>
-                            <button class="read-more-btn" onclick="showFullArticle(${index})">Read More</button>
-                        </div>
-                    </div>
-                `;
-            });
-            articlesHTML += '</div>';
-
-            document.getElementById('content').innerHTML = articlesHTML;
-            window.articlesData = data; // Simpan data untuk Read More
-        })
-        .catch(error => {
-            console.error('Error fetching articles:', error);
-            document.getElementById('content').innerHTML = '<p>Failed to load articles.</p>';
-        });
+        }
+        return data;
+    } catch (error) {
+        console.error('Error fetching articles:', error);
+        throw new Error('Failed to load articles.');
+    }
 }
 
-function showFullArticle(index) {
-    const article = window.articlesData[index];
-    if (!article) {
-        console.error("Article not found at index:", index);
-        document.getElementById('content').innerHTML = '<p>Article not found.</p>';
-        return;
-    }
+function generateArticlesHTML(articles) {
+    let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
+    articles.forEach((article, index) => {
+        if (!article.Title || !article.Description) {
+            console.warn(`Invalid article data at index ${index}:`, article);
+            return;
+        }
 
-    const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
+        const { Title, Description, FeaturedImage } = article;
+        const imageUrl = FeaturedImage && FeaturedImage.trim()
+            ? FeaturedImage
+            : 'images/default-image.webp';
+
+        articlesHTML += ` 
+            <div class="article-card">
+                <div class="article-image-container">
+                    <img src="${imageUrl}" alt="${Title}" class="article-image"
+                        onerror="this.src='images/default-image.webp';">
+                </div>
+                <div class="article-content">
+                    <h2>${Title}</h2>
+                    <p>${Description}</p>
+                    <button class="read-more-btn" data-index="${index}">Read More</button>
+                </div>
+            </div>
+        `;
+    });
+    articlesHTML += '</div>';
+    return articlesHTML;
+}
+
+function generateFullArticleHTML(article) {
+    const { Title, FeaturedImage, Content, MetaTitle, MetaDescription, Keywords } = article;
     const imageUrl = FeaturedImage && FeaturedImage.trim()
         ? FeaturedImage
         : 'images/default-image.webp';
 
-    const fullArticleHTML = `
+    return `
         <div class="full-article">
             <img src="${imageUrl}" alt="${Title}" class="article-image"
                 onerror="this.src='images/default-image.webp';">
@@ -88,9 +75,28 @@ function showFullArticle(index) {
                 <p><strong>Meta Description:</strong> ${MetaDescription}</p>
                 <p><strong>Keywords:</strong> ${Keywords}</p>
             </div>
-            <button class="back-btn" onclick="loadArticles()">Back to Articles</button>
+            <button class="back-btn">Back to Articles</button>
         </div>
     `;
-
-    document.getElementById('content').innerHTML = fullArticleHTML;
 }
+
+// Usage example (assuming you have a way to use these functions):
+// Fetch articles and generate HTML
+fetchArticles().then(articles => {
+    const articlesHTML = generateArticlesHTML(articles);
+    console.log(articlesHTML); // You can render this HTML as needed
+}).catch(error => {
+    console.error(error);
+});
+
+// Example of generating full article HTML
+const exampleArticle = {
+    Title: "Example Title",
+    FeaturedImage: "example.jpg",
+    Content: "Example content...",
+    MetaTitle: "Example Meta Title",
+    MetaDescription: "Example Meta Description",
+    Keywords: "example, keywords"
+};
+const fullArticleHTML = generateFullArticleHTML(exampleArticle);
+console.log(fullArticleHTML); // You can render this HTML as needed
