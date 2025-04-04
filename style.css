@@ -995,5 +995,16 @@ html, body {
         max-width: 300px; /* Batasi lebar maksimum tombol */
     }
 }
-
 /* Aturan CSS lainnya tetap sama */
+/* Tambahkan aturan untuk animasi sosial media di footer */
+.footer-social a {
+    color: #e5e5e5;
+    font-size: 24px;
+    margin: 0 10px;
+    transition: color 0.3s, transform 0.5s;
+}
+
+.footer-social a:hover {
+    color: #007ced;
+    transform: rotate(360deg);
+}
