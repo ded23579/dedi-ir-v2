@@ -1009,33 +1009,3 @@ html, body {
     transform: rotate(360deg);
 }
 /* Aturan CSS lainnya tetap sama */
-
-/* Tambahkan aturan untuk footer pada mode desktop */
-@media (min-width: 769px) {
-    .footer .wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-    }
-
-    .footer-menu,
-    .footer-copyright,
-    .footer-social {
-        flex: 1;
-    }
-
-    .footer-menu {
-        text-align: left;
-    }
-
-    .footer-copyright {
-        text-align: center;
-    }
-
-    .footer-social {
-        text-align: right;
-    }
-}
-
-/* Aturan CSS lainnya tetap sama */
