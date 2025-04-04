@@ -170,7 +170,6 @@ margin-top: 20px; /* Jarak atas */
     border-radius: 30px;
     border:2px solid #e5e5e5;
     box-shadow:  0 10px 10px -8px rgb(0 0 0 / 78%);
-margin: 10px; /* Tambahkan jarak antar tombol */
 }
 .btn.active{
     border-color: #007ced;
