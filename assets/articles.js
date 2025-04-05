@@ -65,7 +65,7 @@ function loadArticles() {
                         <div class="article-content">
                             <h2>${Title}</h2>
                             <p>${Description}</p>
-                            <a href="${UrlFeaturedImage}" class="read-more-btn" target="_blank">Read More</a>
+                            <a href="${UrlContentImage}" class="read-more-btn" target="_blank">Read More</a>
                         </div>
                     </div>
                 `;
