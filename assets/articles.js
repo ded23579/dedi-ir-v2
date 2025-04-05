@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadArticles() {
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNvUFMN3vIP52HLRYDh6FxIInXBsHedagEnPogxb2RnnMQI1NqKq6Dof1jcgjIw-cs6oHigSYEKgnO/pub?output=csv'; // Ganti dengan URL API
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNvUFMN3vIP52HLRYDh6FxIInXBsHedagEnPogxb2RnnMQI1NqKq6Dof1jcgjIw-cs6oHigSYEKgnO/pubhtml'; // Ganti dengan URL API
     console.log("Fetching from URL:", sheetUrl); // Debugging
 
     fetch(sheetUrl)
