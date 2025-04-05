@@ -1,5 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+    loadArticles();
+});
+
 function loadArticles() {
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNvUFMN3vIP52HLRYDh6FxIInXBsHedagEnPogxb2RnnMQI1NqKq6Dof1jcgjIw-cs6oHigSYEKgnO/pubhtml'; // Ganti dengan URL API
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
     console.log("Fetching from URL:", sheetUrl); // Debugging
 
     fetch(sheetUrl)
