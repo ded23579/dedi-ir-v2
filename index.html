@@ -145,9 +145,10 @@
 
         // Fungsi untuk memuat halaman berdasarkan nama
         function loadPage(page) {
-const sidebar = document.getElementById('sidebar');
+            const sidebar = document.getElementById('sidebar');
             if (page === 'home') {
                 if (sidebar) sidebar.style.display = 'none'; // Sembunyikan sidebar di halaman home
+                document.getElementById('content').innerHTML = '<h1>Welcome to Home Page</h1>'; // Tambahkan konten untuk home
             } else {
                 if (sidebar) sidebar.style.display = 'block'; // Tampilkan sidebar di halaman lain
             }
@@ -174,6 +175,13 @@ const sidebar = document.getElementById('sidebar');
                 default:
                     document.getElementById('content').innerHTML = '<h2>Page not found</h2>';
             }
+        }
+
+        function loadArticles() {
+            document.getElementById('content').innerHTML = `
+                <h1>Articles</h1>
+                <p>Here are some articles...</p>
+            `; // Tambahkan konten untuk halaman articles
         }
 
         function toggleMenu() {
