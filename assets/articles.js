@@ -1,40 +1,57 @@
+document.addEventListener("DOMContentLoaded", function () {
+    loadArticles();
+});
+
 function loadArticles() {
-    const sheetUrl = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLhEgKIC0a-Bb2lQHBceyp2qfyrZQtAAbYjXqeHI5ab-ydZQ6sUtbu0wEK_v1axVNVkdYDtsWsbB0wSPaqJ8TsaYo4J28Phc9bus5IoXmq6OckECLDmzgJV_P_re91O73-f5ERWNLSeeoi15mgw1_ekZ8fgjM3UjI1qvexap92zq6GHrXXgNEo1vkwqRlwpDstvr4UfYb6IQHmNsiwY9ZXB6mSYfMPvnWjoW0gC-GBDNs_AUrOnyRmQbKZSakXr6Clf0hbJzAoCFwEuoxXAlbgKIv-cxCA&lib=MgnNHUJ8nyHtCMfKhbjqgCUf_rrIVLfIM'; // Ganti dengan URL publik Google Sheets Anda
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
+    console.log("Fetching from URL:", sheetUrl); // Debugging
 
     fetch(sheetUrl)
         .then(response => {
+            console.log("Response status:", response.status); // Debugging HTTP Status
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
-            return response.text();
+            return response.json(); // Parse JSON response
         })
-        .then(csvText => {
-            console.log("CSV Text:", csvText);
-            const rows = csvText.split('\n').map(row => row.split(','));
-            const articles = rows.slice(1).map(row => row.slice(2)); // Hilangkan header
-            
+        .then(data => {
+            console.log("Fetched data:", data); // Debugging response data
+
+            // Periksa apakah data adalah array, jika tidak cek apakah ada objek articles
+            if (!Array.isArray(data)) {
+                if (data.articles && Array.isArray(data.articles)) {
+                    data = data.articles; // Gunakan array dari properti articles
+                } else {
+                    console.error('Invalid API response format. Expected an array.', data);
+                    document.getElementById('content').innerHTML =
+                        '<p>Failed to load articles. Invalid response format.</p>';
+                    return;
+                }
+            }
+
+            // Proses dan render artikel
             let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
-            articles.forEach((article, index) => {
-                // Validasi data
-                if (article.length < 5 || !article[0].trim() || !article[1].trim()) {
+            data.forEach((article, index) => {
+                if (!article.Title || !article.Description) {
                     console.warn(`Invalid article data at index ${index}:`, article);
                     return;
                 }
 
-                const [title, description, featuredImage, content, url] = article;
+                const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
+                const imageUrl = FeaturedImage && FeaturedImage.trim()
+                    ? FeaturedImage
+                    : 'images/default-image.webp';
 
-                // Validasi URL gambar
-                const imageUrl = featuredImage && featuredImage.trim() ? featuredImage : 'images/default-image.webp';
-
-                articlesHTML += `
+                articlesHTML += ` 
                     <div class="article-card">
                         <div class="article-image-container">
-                            <img src="${imageUrl}" alt="${title}" class="article-image" onerror="this.src='images/default-image.webp';">
+                            <img src="${imageUrl}" alt="${Title}" class="article-image"
+                                onerror="this.src='images/default-image.webp';">
                         </div>
                         <div class="article-content">
-                            <h2>${title}</h2>
-                            <p>${description}</p>
-                            <button class="read-more-btn" onclick="showFullArticle('${url}')">Read More</button>
+                            <h2>${Title}</h2>
+                            <p>${Description}</p>
+                            <button class="read-more-btn" onclick="showFullArticle(${index})">Read More</button>
                         </div>
                     </div>
                 `;
@@ -42,9 +59,7 @@ function loadArticles() {
             articlesHTML += '</div>';
 
             document.getElementById('content').innerHTML = articlesHTML;
-
-            // Simpan artikel untuk digunakan di fungsi "Read More"
-            window.articlesData = articles;
+            window.articlesData = data; // Simpan data untuk Read More
         })
         .catch(error => {
             console.error('Error fetching articles:', error);
@@ -52,7 +67,34 @@ function loadArticles() {
         });
 }
 
-function showFullArticle(url) {
-    console.log("Navigating to URL:", url);
-    window.location.href = url;
+function showFullArticle(index) {
+    const article = window.articlesData[index];
+    if (!article) {
+        console.error("Article not found at index:", index);
+        document.getElementById('content').innerHTML = '<p>Article not found.</p>';
+        return;
+    }
+
+    const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
+    const imageUrl = FeaturedImage && FeaturedImage.trim()
+        ? FeaturedImage
+        : 'images/default-image.webp';
+
+    const fullArticleHTML = `
+        <div class="full-article">
+            <img src="${imageUrl}" alt="${Title}" class="article-image"
+                onerror="this.src='images/default-image.webp';">
+            <h1>${Title}</h1>
+            <p>${Content}</p>
+            <div class="meta-info">
+                <h3>Meta Information</h3>
+                <p><strong>Meta Title:</strong> ${MetaTitle}</p>
+                <p><strong>Meta Description:</strong> ${MetaDescription}</p>
+                <p><strong>Keywords:</strong> ${Keywords}</p>
+            </div>
+            <button class="back-btn" onclick="loadArticles()">Back to Articles</button>
+        </div>
+    `;
+
+    document.getElementById('content').innerHTML = fullArticleHTML;
 }
