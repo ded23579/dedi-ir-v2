@@ -1,5 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+    loadArticles();
+});
+
 function loadArticles() {
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNvUFMN3vIP52HLRYDh6FxIInXBsHedagEnPogxb2RnnMQI1NqKq6Dof1jcgjIw-cs6oHigSYEKgnO/pubhtml'; // Ganti dengan URL API
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzoZFeiNRnSBu9ou96JoH63RzKjNhFRUHke5FlrpCn081pwTvG4crBnlDZhIFTRuGer/exec'; // Ganti dengan URL API
     console.log("Fetching from URL:", sheetUrl); // Debugging
 
     fetch(sheetUrl)
@@ -33,7 +37,7 @@ function loadArticles() {
                     return;
                 }
 
-                const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
+                const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
                 const imageUrl = FeaturedImage && FeaturedImage.trim()
                     ? FeaturedImage
                     : 'images/default-image.webp';
@@ -71,7 +75,7 @@ function showFullArticle(index) {
         return;
     }
 
-    const { Title, Description, FeaturedImage, Content, ContentImage, MetaTitle, MetaDescription, Keywords } = article;
+    const { Title, Description, FeaturedImage, Column4, ContentImage } = article;
     const imageUrl = FeaturedImage && FeaturedImage.trim()
         ? FeaturedImage
         : 'images/default-image.webp';
@@ -81,13 +85,7 @@ function showFullArticle(index) {
             <img src="${imageUrl}" alt="${Title}" class="article-image"
                 onerror="this.src='images/default-image.webp';">
             <h1>${Title}</h1>
-            <p>${Content}</p>
-            <div class="meta-info">
-                <h3>Meta Information</h3>
-                <p><strong>Meta Title:</strong> ${MetaTitle}</p>
-                <p><strong>Meta Description:</strong> ${MetaDescription}</p>
-                <p><strong>Keywords:</strong> ${Keywords}</p>
-            </div>
+            <p>${Column4}</p>
             <button class="back-btn" onclick="loadArticles()">Back to Articles</button>
         </div>
     `;
