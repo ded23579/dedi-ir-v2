@@ -11,16 +11,16 @@ async function fetchFeed(url) {
         if (data.status === 'ok') {
             displayFeed(data.items);
         } else {
-            document.getElementById('feedContainer').innerHTML = 'Gagal mengambil feed: ' + data.message;
+            document.getElementById('content').innerHTML = 'Gagal mengambil feed: ' + data.message;
         }
     } catch (error) {
         console.error('Error fetching the feed:', error);
-        document.getElementById('feedContainer').innerHTML = 'Terjadi kesalahan saat mengambil feed.';
+        document.getElementById('content').innerHTML = 'Terjadi kesalahan saat mengambil feed.';
     }
 }
 
 function displayFeed(items) {
-    const feedContainer = document.getElementById('feedContainer');
+    const feedContainer = document.getElementById('content');
     feedContainer.innerHTML = '';
 
     if (items.length === 0) {
@@ -30,12 +30,12 @@ function displayFeed(items) {
 
     items.forEach(item => {
         const feedItem = document.createElement('div');
-        feedItem.classList.add('feed-item');
+        feedItem.classList.add('content');
         feedItem.innerHTML = `
             <h2>${item.title}</h2>
             <p>${item.description}</p>
             <a href="${item.link}" target="_blank">Baca Selengkapnya</a>
         `;
-        feedContainer.appendChild(feedItem);
+        feedContainer.appendChild(content);
     });
 }
