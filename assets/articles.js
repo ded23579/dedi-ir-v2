@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+function loadArticles() {
+    document.addEventListener('DOMContentLoaded', function() {
     const url = 'https://edu.abjad.eu.org/feed';
     fetchFeed(url);
 });
