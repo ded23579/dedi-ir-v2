@@ -64,13 +64,10 @@
     <header>
         <nav class="navbar">
             <div class="wrapper">
-<!-- Nama di sebelah kiri -->
                 <div class="brand">
                     <a href="#" onclick="loadPage('home')">Dedi Ir</a>
                 </div>
-<!-- Tombol menu toggle -->
                 <span class="menu-toggle" onclick="toggleMenu()"><i class="fa fa-bars"></i></span>
-                <!-- Menu di sebelah kanan -->
                 <ul class="menu">
                     <li><a href="#" onclick="loadPage('home')">Home</a></li>
                     <li><a href="#" onclick="loadPage('articles')">Articles</a></li>
@@ -79,35 +76,33 @@
         </nav>
     </header>
 
-<!-- Breadcrumbs -->
+    <!-- Breadcrumbs -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
         </ol>
     </nav>
 
-<!-- Konten Utama -->
+    <!-- Konten Utama -->
     <main>
-<div class="main-container">
-            <!-- Sidebar -->
+        <div class="main-container">
             <aside class="sidebar" id="sidebar">
-<div class="sidebar-profile">
+                <div class="sidebar-profile">
                     <img src="images/Dedi-Ir.webp" alt="Dedi Ir" loading="lazy">
                     <h3>Dedi Ir</h3>
-                    <p>Saya hanya mas-mas biasa yang tertarik dengan dunia edit, menggambar, puisi, sajak, lierasi, sajak, fotografi.</p>
+                    <p>Saya hanya mas-mas biasa yang tertarik dengan dunia edit, menggambar, puisi, sajak, literasi, seni, dan fotografi.</p>
                 </div>                
             </aside>
-<!-- Konten Utama -->
-<div id="content">
-    <div id="container">
-            <!-- Konten akan dimuat di sini -->
-    </div>
+            <div id="content">
+                <div id="container">
+                    <!-- Konten akan dimuat di sini -->
+                </div>
+            </div>
         </div>
-</div>
     </main>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="wrapper">
-            <!-- Bagian kiri: Menu -->
             <div class="footer-menu">
                 <ul>
                     <li><a href="#" onclick="loadPage('about')">About</a></li>
@@ -116,19 +111,18 @@
                     <li><a href="#" onclick="loadPage('privacy')">Privacy</a></li>
                 </ul>
             </div>
-            <!-- Bagian tengah: Copyright -->
             <div class="footer-copyright">
                 <p>&copy; <span id="current-year"></span> Dedi Ir. All Rights Reserved.</p>
             </div>
-            <!-- Bagian kanan: Ikon Sosial Media -->
             <div class="hero-text">
-            <div class="social" style="margin-top: 10px; text-align: center;">
-                <a href="https://www.instagram.com/ded.dedii" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://github.com/ded23579" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>               
-            </div>
+                <div class="social" style="margin-top: 10px; text-align: center;">
+                    <a href="https://www.instagram.com/ded.dedii" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://github.com/ded23579" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>               
+                </div>
             </div>
         </div>
     </footer>
+
     <script src="assets/home.js"></script>
     <script src="assets/about.js"></script>
     <script src="assets/contact.js"></script>
@@ -139,7 +133,7 @@
     <script>
         // Fungsi untuk memuat halaman awal
         document.addEventListener('DOMContentLoaded', () => {
-            loadPage('home');
+            loadPage('home'); // Memuat halaman home saat pertama kali
             const yearSpan = document.getElementById('current-year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
@@ -158,22 +152,22 @@
 
             switch (page) {
                 case 'home':
-                    loadHome();
+                    loadHome(); // Memuat konten halaman home
                     break;
                 case 'about':
-                    loadAbout();
+                    loadAbout(); // Memuat konten halaman about
                     break;
                 case 'contact':
-                    loadContact();
+                    loadContact(); // Memuat konten halaman contact
                     break;
                 case 'disclaimer':
-                    loadDisclaimer();
+                    loadDisclaimer(); // Memuat konten halaman disclaimer
                     break;
                 case 'privacy':
-                    loadPrivacy();
+                    loadPrivacy(); // Memuat konten halaman privacy
                     break;
                 case 'articles':
-                    loadArticles(); // Panggil fungsi untuk memuat artikel
+                    loadArticles('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fedu.abjad.eu.org%2Ffeed%2F'); // Panggil fungsi dengan URL
                     break;
                 default:
                     document.getElementById('content').innerHTML = '<h2>Page not found</h2>';
@@ -185,19 +179,75 @@
             menu.classList.toggle('active');
         }
 
-        // Fungsi untuk menangani 404 error dan redirect ke home
-        window.addEventListener('error', (event) => {
-            if (event.target.tagName === 'IMG' || event.target.tagName === 'SCRIPT') {
-                console.warn('Resource not found:', event.target.src || event.target.href);
-                const errorDiv = document.querySelector('.error-404');
-                if (errorDiv) {
-                    errorDiv.style.display = 'block'; // Tampilkan pesan error
-                }
-                setTimeout(() => {
-                    window.location.replace('/?redirected=301'); // Redirect ke home dengan status 301
-                }, 3000); // Tunggu 3 detik sebelum redirect
-            }
-        });
+        // Fungsi untuk memuat artikel
+        function loadArticles(sheetUrl) {
+            console.log("Fetching from URL:", sheetUrl); // Debugging
+
+            fetch(sheetUrl)
+                .then(response => {
+                    console.log("Response status:", response.status); // Debugging HTTP Status
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok. Status: ${response.status}`);
+                    }
+                    return response.json(); // Parse JSON response
+                })
+                .then(data => {
+                    console.log("Fetched data:", data); // Debugging response data
+
+                    // Validasi dan normalisasi struktur data
+                    if (!data || !data.items || !Array.isArray(data.items)) {
+                        console.error('Invalid API response format. Expected an array.', data);
+                        document.getElementById('content').innerHTML =
+                            '<p>Failed to load articles. Invalid response format.</p>';
+                        return;
+                    }
+
+                    if (data.items.length === 0) {
+                        console.warn("No articles found in the API response.");
+                        document.getElementById('content').innerHTML =
+                            '<p>No articles available at the moment.</p>';
+                        return;
+                    }
+
+                    // Proses dan render artikel
+                    let articlesHTML = '<div class="articles-section"><h1>Articles</h1>';
+                    data.items.forEach((article, index) => {
+                        console.log(`Processing article at index ${index}:`, article); // Debugging setiap artikel
+
+                        // Ambil data artikel
+                        const Title = article.title || "Untitled";
+                        const Description = article.description || "No description available.";
+                        const FeaturedImage = article.thumbnail || ""; // Ganti dengan field yang sesuai
+                        const UrlContentImage = article.link || "#";
+
+                        const imageUrl = FeaturedImage.trim()
+                            ? FeaturedImage
+                            : 'images/default-image.webp';
+
+                        articlesHTML += ` 
+                            <div class="article-card">
+                                <div class="article-image-container">
+                                    <img src="${imageUrl}" alt="${Title}" class="article-image"
+                                        onerror="this.src='images/default-image.webp';">
+                                </div>
+                                <div class="article-content">
+                                    <h2>${Title}</h2>
+                                    <p>${Description}</p>
+                                    <a href="${UrlContentImage}" class="read-more-btn" target="_blank">Read More</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    articlesHTML += '</div>';
+
+                    document.getElementById('content').innerHTML = articlesHTML;
+                    window.articlesData = data.items; // Simpan data untuk penggunaan lebih lanjut
+                })
+                .catch(error => {
+                    console.error('Error fetching articles:', error);
+                    document.getElementById('content').innerHTML = '<p>Failed to load articles.</p>';
+                });
+        }
     </script>
 </body>
 </html>
