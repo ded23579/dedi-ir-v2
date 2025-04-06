@@ -1,5 +1,5 @@
-document.getElementById('fetchFeed').addEventListener('click', function() {
-    const url = document.getElementById('rssUrl').value;
+document.addEventListener('DOMContentLoaded', function() {
+    const url = 'https://edu.abjad.eu.org/feed';
     fetchFeed(url);
 });
 
@@ -11,17 +11,22 @@ async function fetchFeed(url) {
         if (data.status === 'ok') {
             displayFeed(data.items);
         } else {
-            alert('Gagal mengambil feed: ' + data.message);
+            document.getElementById('feedContainer').innerHTML = 'Gagal mengambil feed: ' + data.message;
         }
     } catch (error) {
         console.error('Error fetching the feed:', error);
-        alert('Terjadi kesalahan saat mengambil feed.');
+        document.getElementById('feedContainer').innerHTML = 'Terjadi kesalahan saat mengambil feed.';
     }
 }
 
 function displayFeed(items) {
     const feedContainer = document.getElementById('feedContainer');
     feedContainer.innerHTML = '';
+
+    if (items.length === 0) {
+        feedContainer.innerHTML = 'Tidak ada artikel yang ditemukan.';
+        return;
+    }
 
     items.forEach(item => {
         const feedItem = document.createElement('div');
